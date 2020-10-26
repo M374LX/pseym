@@ -1,0 +1,12 @@
+Pseym main program by M-374 LX (wilsalx@gmail.com).
+
+The file "audio.c" is partially based on Nuke.YKT's fork of Genesis Plus GX
+(https://github.com/nukeykt/Genesis-Plus-GX), itself originally by Charles
+MacDonald and Eke-Eke.
+
+Nuked-OPN2 library by Nuke.YKT (https://github.com/nukeykt/Nuked-OPN2).
+
+Blip_Buffer library by Shay Green (http://www.slack.net/~ant/), modified by
+Eke-Eke for Genesis Plus GX, with Pseym's copy relicensed from LGPL to ordinary
+GPL (as allowed by LGPL version 2.1 section 3).
+
