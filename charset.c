@@ -26,8 +26,7 @@
 
 #include <stdint.h>
 
-const uint32_t charset[] =
-{
+const uint32_t charset[] = {
 	/* Space */
 	0x00000000,
 	0x00000000,

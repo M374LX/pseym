@@ -67,8 +67,7 @@ static const char* param_names[] = {
 #define ALG_OFFS 37
 
 //The default sine wave instrument (in Echo's EIF format)
-static const uint8_t instr_default[] =
-{
+static const uint8_t instr_default[] = {
 	0x00,
 	0x01, 0x01, 0x01, 0x01,
 	0x7F, 0x7F, 0x7F, 0x00,
@@ -169,8 +168,7 @@ static void write_eif_regs(const uint8_t* instr, uint8_t chan) {
 	uint8_t part = 0;
 	int i;
 
-	for (i = 0; i < 6; i++)
-	{
+	for (i = 0; i < 6; i++) {
 		uint8_t reg = 0x30 + (i << 4) + chan;
 
 		fm_write_reg(reg + 0,  instr[(i << 2) + 1], part);
@@ -198,15 +196,15 @@ static void load_eif(const uint8_t* instr)
 			op_screen = 1;
 		}
 
-		instr_params[MUL * 4 + op_screen] = instr[1  + op] & 0x0F;
+		instr_params[MUL * 4 + op_screen] =  instr[1  + op] & 0x0F;
 		instr_params[DT  * 4 + op_screen] = (instr[1  + op] >> 4) & 0x07;
-		instr_params[TL  * 4 + op_screen] = instr[5  + op] & 0x7F;
-		instr_params[AR  * 4 + op_screen] = instr[9  + op] & 0x1F;
+		instr_params[TL  * 4 + op_screen] =  instr[5  + op] & 0x7F;
+		instr_params[AR  * 4 + op_screen] =  instr[9  + op] & 0x1F;
 		instr_params[RS  * 4 + op_screen] = (instr[9  + op] >> 6) & 0x03;
-		instr_params[DR  * 4 + op_screen] = instr[13 + op] & 0x1F;
-		instr_params[SR  * 4 + op_screen] = instr[17 + op] & 0x1F;
+		instr_params[DR  * 4 + op_screen] =  instr[13 + op] & 0x1F;
+		instr_params[SR  * 4 + op_screen] =  instr[17 + op] & 0x1F;
 		instr_params[SL  * 4 + op_screen] = (instr[21 + op] >> 4) & 0x0F;
-		instr_params[RR  * 4 + op_screen] = instr[21 + op] & 0x0F;
+		instr_params[RR  * 4 + op_screen] =  instr[21 + op] & 0x0F;
 	}
 	instr_params[FB_OFFS]  = (instr[0] >> 3) & 0x07;
 	instr_params[ALG_OFFS] = instr[0] & 0x07;
@@ -567,23 +565,26 @@ bool ui_init()
 	int i, j;
 
 	win = SDL_CreateWindow("Pseym",
-							SDL_WINDOWPOS_UNDEFINED, SDL_WINDOWPOS_UNDEFINED,
-							VSCREEN_WIDTH_PIXELS * 3, VSCREEN_HEIGHT_PIXELS * 3,
-							SDL_WINDOW_SHOWN);
+			SDL_WINDOWPOS_UNDEFINED, SDL_WINDOWPOS_UNDEFINED,
+			VSCREEN_WIDTH_PIXELS * 3, VSCREEN_HEIGHT_PIXELS * 3,
+			SDL_WINDOW_SHOWN);
+
 	if (win == NULL) {
 		printf("Failed to create window.\n");
 		return false;
 	}
 
 	renderer = SDL_CreateRenderer(win, -1, 0);
+
 	if (renderer == NULL) {
 		printf("Failed to create renderer.\n");
 		return false;
 	}
 
 	vscreen_tex = SDL_CreateTexture(renderer,
-							SDL_PIXELFORMAT_RGB888, SDL_TEXTUREACCESS_TARGET,
-							VSCREEN_WIDTH_PIXELS, VSCREEN_HEIGHT_PIXELS);
+			SDL_PIXELFORMAT_RGB888, SDL_TEXTUREACCESS_TARGET,
+			VSCREEN_WIDTH_PIXELS, VSCREEN_HEIGHT_PIXELS);
+
 	if (vscreen_tex == NULL) {
 		printf("Unable to create virtual screen.\n");
 		return false;
@@ -611,7 +612,7 @@ bool ui_init()
 	return true;
 }
 
-//Frees user interface resources at program's end
+//Free user interface resources at program's end
 void ui_shutdown()
 {
 	SDL_DestroyTexture(vscreen_tex);
