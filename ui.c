@@ -687,8 +687,6 @@ void ui_draw()
 	for (line = 0; line < VSCREEN_HEIGHT_CHARS; line++) {
 		int cursor_max = cursor_x + cursor_w - 1;
 		int i;
-		int x = 0;
-		int y = line;
 
 		if (cursor_x < 0) {
 			cursor_max = -1;
@@ -697,13 +695,13 @@ void ui_draw()
 		for (i = 0; i < VSCREEN_WIDTH_CHARS; i++) {
 			bool reverse = false;
 
-			if (y == cursor_y) {
-				if (x + i >= cursor_x && x + i <= cursor_max) {
+			if (line == cursor_y) {
+				if (i >= cursor_x && i <= cursor_max) {
 					reverse = true;
 				}
 			}
 
-			draw_char(vscreen[i][line], x + i, y, reverse);
+			draw_char(vscreen[i][line], i, line, reverse);
 		}
 	}
 
