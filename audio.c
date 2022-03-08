@@ -183,29 +183,33 @@ static void fm_write_queue_update()
 		return;
 	}
 
-	if (fm_write_queue_pos >= fm_write_queue_length) {
-		fm_write_queue_length = 0;
-		fm_write_queue_pos = 0;
-		fm_write_part = 0;
-		fm_write_part_add = 0;
-		return;
-	}
+	int cycles = 0;
 
-	if (fm_write_queue[fm_write_queue_pos] == 0xFF) {
-		//Special value to enable playing notes
-		fm_notes_enabled = true;
-		fm_write_queue_pos += 2;
-		return;
-	} else if (fm_write_queue[fm_write_queue_pos] == 0xFE) {
-		//Special value to set the part of the FM chip to write to
-		fm_write_part = fm_write_queue[fm_write_queue_pos + 1];
-		fm_write_queue_pos += 2;
-		return;
-	}
+	while (1) {
+		if (fm_write_queue_pos >= fm_write_queue_length) {
+			fm_write_queue_length = 0;
+			fm_write_queue_pos = 0;
+			fm_write_part = 0;
+			fm_write_part_add = 0;
+			return;
+		}
 
-	ym_write(0,  (fm_write_part * 2) + 0, fm_write_queue[fm_write_queue_pos + 0]);
-	ym_write(42, (fm_write_part * 2) + 1, fm_write_queue[fm_write_queue_pos + 1]);
-	fm_write_queue_pos += 2;
+		if (fm_write_queue[fm_write_queue_pos] == 0xFF) {
+			//Special value to enable playing notes
+			fm_notes_enabled = true;
+			fm_write_queue_pos += 2;
+		} else if (fm_write_queue[fm_write_queue_pos] == 0xFE) {
+			//Special value to set the part of the FM chip to write to
+			fm_write_part = fm_write_queue[fm_write_queue_pos + 1];
+			fm_write_queue_pos += 2;
+		} else {
+			//Regular register write
+			ym_write(cycles,  (fm_write_part * 2) + 0, fm_write_queue[fm_write_queue_pos + 0]);
+			ym_write(cycles + 48, (fm_write_part * 2) + 1, fm_write_queue[fm_write_queue_pos + 1]);
+			cycles += 1000;
+			fm_write_queue_pos += 2;
+		}
+	}
 }
 
 static void audio_callback(void* userdata, uint8_t* stream, int len)
