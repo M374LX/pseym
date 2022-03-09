@@ -93,9 +93,6 @@ static int sel_op, sel_param;
 static char vscreen[VSCREEN_WIDTH_CHARS][VSCREEN_HEIGHT_CHARS];
 static SDL_Texture* vscreen_tex;
 
-//Cursor position and width on the screen
-static int cursor_x, cursor_y, cursor_w;
-
 static SDL_Window* win = NULL;
 static SDL_Renderer* renderer = NULL;
 
@@ -657,10 +654,7 @@ bool ui_handle_events()
 void ui_draw()
 {
 	int param, line;
-
-	cursor_x = 6 + (sel_op * 4);
-	cursor_y = 2 + sel_param;
-	cursor_w = (sel_param == FB || sel_param == ALG) ? 1 : 2;
+	int cursor_x, cursor_y, cursor_w;
 
 	//Show top line, with operator numbers
 	write_str("OP   1   2   3   4", 1, 1);
@@ -689,6 +683,11 @@ void ui_draw()
 	SDL_SetRenderTarget(renderer, vscreen_tex);
 	SDL_SetRenderDrawColor(renderer, 0, 0, 0, 255);
 	SDL_RenderClear(renderer);
+
+	//Set cursor position and width
+	cursor_x = 6 + (sel_op * 4);
+	cursor_y = 2 + sel_param;
+	cursor_w = (sel_param == FB || sel_param == ALG) ? 1 : 2;
 
 	//Draw characters from virtual screen
 	for (line = 0; line < VSCREEN_HEIGHT_CHARS; line++) {
