@@ -360,26 +360,32 @@ static bool load_eif_file(const char* filename)
 {
 	uint8_t bytes[29];
 	int num_bytes = 0;
+	bool success;
 	FILE* f = fopen(filename, "r");
 
 	if (f == NULL) {
 		return false;
 	}
 
-	while (num_bytes < 29) {
-		if (feof(f) || fread(&bytes[num_bytes], 1, 1, f) != 1) {
-			fclose(f);
-			return false;
+	while (1) {
+		if (num_bytes > 29 || feof(f) || fread(&bytes[num_bytes], 1, 1, f) != 1) {
+			break;
 		}
 
 		num_bytes++;
 	}
 
-	load_eif(bytes);
+	if (num_bytes == 29) {
+		success = true;
+		load_eif(bytes);
+	} else {
+		success = false;
+		//TODO: show error
+	}
 
 	fclose(f);
 
-	return true;
+	return success;
 }
 
 //Save the current instrument as an EIF file
