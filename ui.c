@@ -677,7 +677,7 @@ void ui_draw()
 	write_hex(instr_params[ALG_OFFS], 1, 6, 12);
 
 	//Show octave
-	write_str("OCT. ", 1, 14);
+	write_str("OCT", 1, 14);
 	write_hex(octave, 1, 6, 14);
 
 	SDL_SetRenderTarget(renderer, vscreen_tex);
