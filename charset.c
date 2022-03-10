@@ -1,7 +1,7 @@
 /*
  * charset.c - Character set
  *
- * Copyright (C) 2020 M-374 LX <wilsalx@gmail.com>
+ * Copyright (C) 2020-2022 M-374 LX <wilsalx@gmail.com>
  *
  * Character set taken from SGCC demo 1
  * (http://gendev.spritesmind.net/page-sgcc.html).

@@ -1,7 +1,7 @@
 /*
  * audio.c - Audio subsystem for previewing notes
  *
- * Copyright (C) 2020 M-374 LX <wilsalx@gmail.com>
+ * Copyright (C) 2020-2022 M-374 LX <wilsalx@gmail.com>
  *
  * Partially based on Nuke.YKT's fork of Genesis Plus GX, itself originally
  * by Charles MacDonald and Eke-Eke.

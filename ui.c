@@ -1,7 +1,7 @@
 /*
  * ui.c - User interface
  *
- * Copyright (C) 2020 M-374 LX <wilsalx@gmail.com>
+ * Copyright (C) 2020-2022 M-374 LX <wilsalx@gmail.com>
  *
  * This file is part of Pseym.
  *
