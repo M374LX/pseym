@@ -510,7 +510,7 @@ static void key_press(int sym, bool shift, bool ctrl, bool repeat)
 			break;
 
 		case SDLK_F5:
-			save_eif_file("instr.eif");
+			save_eif_file("pseym-instr.eif");
 			break;
 	}
 
@@ -607,7 +607,7 @@ bool ui_init()
 	}
 
 	load_eif(instr_default);
-	if (!load_eif_file("instr.eif")) {
+	if (!load_eif_file("pseym-instr.eif")) {
 		//TODO: show error
 	}
 	fm_enable_notes();
