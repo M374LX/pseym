@@ -193,18 +193,18 @@ static void load_eif(const uint8_t* instr)
 			op_screen = 1;
 		}
 
-		instr_params[MUL * 4 + op_screen] =  instr[1  + op] & 0x0F;
+		instr_params[MUL * 4 + op_screen] =  instr[1  + op]       & 0x0F;
 		instr_params[DT  * 4 + op_screen] = (instr[1  + op] >> 4) & 0x07;
-		instr_params[TL  * 4 + op_screen] =  instr[5  + op] & 0x7F;
-		instr_params[AR  * 4 + op_screen] =  instr[9  + op] & 0x1F;
+		instr_params[TL  * 4 + op_screen] =  instr[5  + op]       & 0x7F;
+		instr_params[AR  * 4 + op_screen] =  instr[9  + op]       & 0x1F;
 		instr_params[RS  * 4 + op_screen] = (instr[9  + op] >> 6) & 0x03;
-		instr_params[DR  * 4 + op_screen] =  instr[13 + op] & 0x1F;
-		instr_params[SR  * 4 + op_screen] =  instr[17 + op] & 0x1F;
+		instr_params[DR  * 4 + op_screen] =  instr[13 + op]       & 0x1F;
+		instr_params[SR  * 4 + op_screen] =  instr[17 + op]       & 0x1F;
 		instr_params[SL  * 4 + op_screen] = (instr[21 + op] >> 4) & 0x0F;
-		instr_params[RR  * 4 + op_screen] =  instr[21 + op] & 0x0F;
+		instr_params[RR  * 4 + op_screen] =  instr[21 + op]       & 0x0F;
 	}
 	instr_params[FB_OFFS]  = (instr[0] >> 3) & 0x07;
-	instr_params[ALG_OFFS] = instr[0] & 0x07;
+	instr_params[ALG_OFFS] =  instr[0]       & 0x07;
 
 	//Load the instrument on the first three channels
 	write_eif_regs(instr, 0);
@@ -230,14 +230,14 @@ static void save_eif(uint8_t* dest)
 		}
 
 		dest[1  + op]  = instr_params[MUL * 4 + op_screen];
-		dest[1  + op] |= (instr_params[DT * 4 + op_screen] << 4);
+		dest[1  + op] |= instr_params[DT  * 4 + op_screen] << 4;
 		dest[5  + op]  = instr_params[TL  * 4 + op_screen];
 		dest[9  + op]  = instr_params[AR  * 4 + op_screen];
-		dest[9  + op] |= (instr_params[RS * 4 + op_screen] << 6);
+		dest[9  + op] |= instr_params[RS  * 4 + op_screen] << 6;
 		dest[13 + op]  = instr_params[DR  * 4 + op_screen];
 		dest[17 + op]  = instr_params[SR  * 4 + op_screen];
 		dest[21 + op]  = instr_params[RR  * 4 + op_screen];
-		dest[21 + op] |= (instr_params[SL * 4 + op_screen] << 4);
+		dest[21 + op] |= instr_params[SL  * 4 + op_screen] << 4;
 		dest[25 + op]  = 0; //SSG-EG (currently unsupported)
 	}
 }
@@ -357,7 +357,7 @@ static bool load_eif_file(const char* filename)
 {
 	uint8_t bytes[29];
 	int num_bytes = 0;
-	bool success;
+	bool success = false;
 	FILE* f = fopen(filename, "r");
 
 	if (f == NULL) {
@@ -372,12 +372,10 @@ static bool load_eif_file(const char* filename)
 		num_bytes++;
 	}
 
+	//An EIF file is always 29 bytes
 	if (num_bytes == 29) {
 		success = true;
 		load_eif(bytes);
-	} else {
-		success = false;
-		//TODO: show error
 	}
 
 	fclose(f);
@@ -609,7 +607,9 @@ bool ui_init()
 	}
 
 	load_eif(instr_default);
-	load_eif_file("instr.eif");
+	if (!load_eif_file("instr.eif")) {
+		//TODO: show error
+	}
 	fm_enable_notes();
 
 	return true;
