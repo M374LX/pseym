@@ -35,17 +35,18 @@ by hexadecimal 10.
 **Ctrl+Page Up/Down:** Set the value of the selected parameter to the
 maximum/minimum.
 
-**F5:** Save the current instrument to the file "instr.eif" (version 0.1) or
-"pseym-instr.eif" (latest commit). At present, Echo's EIF is the only supported
-format.
+**F5:** Save the current instrument to the file "pseym-instr.eif". At present,
+Echo's EIF is the only supported format. The file was named simply "instr.eif"
+on Pseym version 0.1.
 
 **Esc:** Quit
 
 ## Instrument loading
 
-If a file named "instr.eif" (version 0.1) or "pseym-instr.eif" (latest commit),
-in Echo's EIF format, is present on the directory Pseym is started from, it
-will be automatically loaded. Otherwise, it will default to a simple sine wave.
+If a file named "pseym-instr.eif" (in Echo's EIF format) is present on the
+directory Pseym is started from, it will be automatically loaded. Otherwise, it
+will default to a simple sine wave. The file was named simply "instr.eif" on
+Pseym version 0.1.
 
 ## Register reference
 
