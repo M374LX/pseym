@@ -27,7 +27,6 @@
 #include <SDL2/SDL.h>
 #include <stdbool.h>
 #include <stdint.h>
-#include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
 
@@ -37,6 +36,7 @@
 #define MCLOCK_NTSC 53693175
 #define MCLOCK_PAL  53203424
 #define MCYCLES_PER_LINE 3420
+#define MCYCLES_PER_FRAME 262 * MCYCLES_PER_LINE
 #define YM2612_CLOCK_RATIO (7 * 6)
 
 #define SAMPLE_RATE 48000
@@ -129,6 +129,12 @@ static void fm_update(int cycles)
 	fm_cycles_count += (samples * fm_cycles_ratio);
 }
 
+static uint8_t ym_read(int cycles, uint8_t a)
+{
+	fm_update(cycles);
+	return OPN2_Read(&ym3438, a);
+}
+
 static void ym_write(int cycles, uint8_t a, uint8_t v)
 {
 	fm_update(cycles);
@@ -183,7 +189,8 @@ static void fm_write_queue_update()
 		return;
 	}
 
-	int cycles = 0;
+	int cycles = fm_cycles_count + 96;
+	uint8_t a;
 
 	while (1) {
 		if (fm_write_queue_pos >= fm_write_queue_length) {
@@ -204,9 +211,23 @@ static void fm_write_queue_update()
 			fm_write_queue_pos += 2;
 		} else {
 			//Regular register write
-			ym_write(cycles,  (fm_write_part * 2) + 0, fm_write_queue[fm_write_queue_pos + 0]);
-			ym_write(cycles + 48, (fm_write_part * 2) + 1, fm_write_queue[fm_write_queue_pos + 1]);
-			cycles += 1000;
+
+			//Wait while the emulated sound chip is busy
+			while (ym_read(cycles, 0) & 0x80) {
+				cycles += 240;
+			}
+
+			//Write register number
+			a = fm_write_part * 2;
+			ym_write(cycles, a, fm_write_queue[fm_write_queue_pos + 0]);
+			cycles += 48;
+
+			//Write value to register
+			a += 1;
+			ym_write(cycles, a, fm_write_queue[fm_write_queue_pos + 1]);
+			cycles += 240;
+
+			fm_update(cycles);
 			fm_write_queue_pos += 2;
 		}
 	}
@@ -322,7 +343,7 @@ bool audio_init()
 void audio_update()
 {
 	int prev_l, prev_r, time, l, r, *ptr, size;
-	int cycles = MCYCLES_PER_LINE * 60;
+	int cycles = MCYCLES_PER_FRAME;
 	short *out;
 	int i;
 
