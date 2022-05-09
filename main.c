@@ -1,7 +1,7 @@
 /*
  * main.c - Main program's entry point
  *
- * Copyright (C) 2020-2022 M-374 LX <wilsalx@gmail.com>
+ * Copyright (C) 2020-2022 M374LX <wilsalx@gmail.com>
  *
  * This file is part of Pseym.
  *
@@ -67,7 +67,7 @@ void version()
 	const char* str = 
 	"Pseym " VERSION "\n"
 	"\n"
-	"Copyright (C) 2020-2022 M-374 LX <wilsalx@gmail.com>\n"
+	"Copyright (C) 2020-2022 M374LX <wilsalx@gmail.com>\n"
 	"\n"
 	"For a more complete list of authors, see the file AUTHORS.\n"
 	"\n"

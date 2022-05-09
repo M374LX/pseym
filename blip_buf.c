@@ -18,7 +18,7 @@
 
 /*
 Library Copyright (C) 2003-2009 Shay Green.
-Library Copyright (C) 2020-2022 M-374 LX <wilsalx@gmail.com>
+Library Copyright (C) 2020-2022 M374LX <wilsalx@gmail.com>
 
 This library is free software; you can redistribute it and/or modify
 it under the terms of the GNU General Public License as published by

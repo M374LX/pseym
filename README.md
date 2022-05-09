@@ -75,7 +75,7 @@ It has been tested with GCC version 9.3.0.
 ## License
 
 ```
-Copyright (C) 2020-2022 M-374 LX <wilsalx@gmail.com>
+Copyright (C) 2020-2022 M374LX <wilsalx@gmail.com>
 
 Pseym is free software; you can redistribute it and/or modify
 it under the terms of the GNU General Public License as published by
